@@ -6,7 +6,7 @@
 #
 ################################################################################
 dev_api:
-	export $(cat .env | xargs) && mvn spring-boot:run
+	cd api && export $(cat .env | xargs) && mvn spring-boot:run
 
 build_api_docker:
 	docker build -t api:latest --build-arg APP="api" . -q
