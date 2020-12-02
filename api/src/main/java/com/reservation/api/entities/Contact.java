@@ -8,20 +8,17 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
-
 
 @Data
 @ToString
@@ -38,7 +35,7 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "type", nullable = false)
@@ -51,8 +48,13 @@ public class Contact {
     private String phone;
 
     // Relations
-    @OneToMany(mappedBy = "contact")
+    @Fetch(FetchMode.JOIN)
+    @OneToMany(mappedBy = "contactFavorites")
     private Set<Favorite> favorites;
+
+    @Fetch(FetchMode.JOIN)
+    @OneToMany(mappedBy = "contact")
+    private Set<Reservation> reservations;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp

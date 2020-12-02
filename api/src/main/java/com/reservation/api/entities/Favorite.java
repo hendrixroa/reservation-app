@@ -36,7 +36,7 @@ public class Favorite {
 
     @ManyToOne
     @JoinColumn(name="contact_id", nullable=false)
-    private Contact contact;
+    private Contact contactFavorites;
 
     @Column(name = "reservation_id", nullable = false)
     private long reservationId;
