@@ -23,13 +23,33 @@ public class ContactController {
     @Autowired
     ContactService contactService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Contact>> getContacts() {
         try {
             List<Contact> contacts = contactService.getContacts();
             return new ResponseEntity<>(contacts, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Void> createContact(@RequestBody ContactDTO contact){
+        try {
+            contactService.createContact(contact);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/{name}")
+    public ResponseEntity<Void> updateContact(@PathVariable("name") String name, @RequestBody ContactDTO contact){
+        try {
+            contactService.updateContact(name, contact);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -47,14 +67,6 @@ public class ContactController {
         }
     }
 
-    @PostMapping("")
-    public ResponseEntity<Contact> createContact(@RequestBody ContactDTO contact){
-        try {
-            Contact contactCreated = contactService.createContact(contact);
-            return new ResponseEntity<>(contactCreated, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
 
 }

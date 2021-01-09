@@ -24,3 +24,4 @@ public class ContactDTO {
     private String phone;
 
 }
+

@@ -16,8 +16,6 @@ import javax.persistence.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -44,7 +42,7 @@ public class Contact {
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
-    @Column(name = "phone", nullable = true)
+    @Column(name = "phone")
     private String phone;
 
     // Relations
